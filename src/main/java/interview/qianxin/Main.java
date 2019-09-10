@@ -1,7 +1,5 @@
-package qianxin;
+package interview.qianxin;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.Scanner;
 
 /**
