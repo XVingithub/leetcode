@@ -7,23 +7,25 @@ class PrizePool{
     char b='B';
     char c='C';
 }
-public class Pingjia implements Runnable {
-    static int i=0;
-    Scanner scanner=new Scanner(System.in);
+class Pingjia implements Runnable {
+    int i;
     PrizePool prizePool=new PrizePool();
-    int n=scanner.nextInt();
-
+    public Pingjia(int a){
+        i=a;
+    }
     @Override
     public void run() {
-        i++;
-        if(i%2!=0){
-            bonus(prizePool);
+        synchronized (this){
+            if(i%2!=0){
+                bonus(prizePool);
+            }
+            if(i%2==0&&i%4==0){
+                contribution(prizePool);
+            }else if (i%2==0&&i%4!=0){
+                coupon(prizePool);
+            }
         }
-        if(i%2==0&&i%4==0){
-            contribution(prizePool);
-        }else if (i%2==0&&i%4!=0){
-            coupon(prizePool);
-        }
+
     }
 
     public void bonus(PrizePool prizePool){
@@ -34,5 +36,16 @@ public class Pingjia implements Runnable {
     }
     public void contribution(PrizePool prizePool){
         System.out.print(prizePool.c);
+    }
+}
+class Main{
+    public static void main(String[] args) {
+        Scanner scanner=new Scanner(System.in);
+        int n=scanner.nextInt();
+        for(int i=0;i<n;i++){
+            Pingjia pingjia=new Pingjia(i+1);
+            Thread p=new Thread(pingjia,pingjia+"i");
+            p.start();
+        }
     }
 }
